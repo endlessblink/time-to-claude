@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Claude Usage Monitor
+Comment=Monitor Claude API usage quotas in your system tray
+Exec=claude-usage-monitor
+Icon=claude-usage-monitor
+Terminal=false
+Categories=Utility;Network;
+Keywords=claude;ai;usage;monitor;quota;
+StartupNotify=false
