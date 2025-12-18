@@ -19,7 +19,7 @@ class DualRingWidget(QWidget):
 
     def __init__(self, dark_mode: bool = False, parent=None):
         super().__init__(parent)
-        self.setFixedSize(180, 180)
+        self.setFixedSize(200, 200)
         self.outer_progress = 0.0  # 5-hour (0.0 to 1.0)
         self.inner_progress = 0.0  # 7-day (0.0 to 1.0)
         self.dark_mode = dark_mode
@@ -40,10 +40,10 @@ class DualRingWidget(QWidget):
         center = QPoint(width // 2, height // 2)
 
         # Ring parameters
-        outer_radius = 75
-        inner_radius = 55
-        outer_width = 12
-        inner_width = 10
+        outer_radius = 85
+        inner_radius = 62
+        outer_width = 14
+        inner_width = 11
 
         # Background track color
         track_color = QColor("#374151") if self.dark_mode else QColor("#E5E7EB")
@@ -66,23 +66,40 @@ class DualRingWidget(QWidget):
 
         # Draw percentage text in center
         outer_pct = int(self.outer_progress * 100)
+        inner_pct = int(self.inner_progress * 100)
         text_color = QColor("#F9FAFB") if self.dark_mode else QColor("#1F2937")
-        painter.setPen(text_color)
-
-        # Large percentage number
-        font = QFont("Sans", 32, QFont.Weight.Bold)
-        painter.setFont(font)
-        text = f"{outer_pct}%"
-        text_rect = QRect(0, height // 2 - 25, width, 40)
-        painter.drawText(text_rect, Qt.AlignmentFlag.AlignCenter, text)
-
-        # "Used" label below
-        font_small = QFont("Sans", 11)
-        painter.setFont(font_small)
         label_color = QColor("#9CA3AF") if self.dark_mode else QColor("#6B7280")
-        painter.setPen(label_color)
-        used_rect = QRect(0, height // 2 + 15, width, 20)
-        painter.drawText(used_rect, Qt.AlignmentFlag.AlignCenter, "Used")
+
+        # Primary: 5h percentage with label
+        font_primary = QFont("Sans", 22, QFont.Weight.Bold)
+        painter.setFont(font_primary)
+        painter.setPen(text_color)
+        primary_text = f"{outer_pct}%"
+        primary_rect = QRect(0, height // 2 - 34, width, 30)
+        painter.drawText(primary_rect, Qt.AlignmentFlag.AlignCenter, primary_text)
+
+        # "5-hour" label
+        font_label = QFont("Sans", 9)
+        painter.setFont(font_label)
+        outer_color = get_5h_color(self.outer_progress)
+        painter.setPen(outer_color)
+        label_5h_rect = QRect(0, height // 2 - 6, width, 16)
+        painter.drawText(label_5h_rect, Qt.AlignmentFlag.AlignCenter, "5-hour")
+
+        # Secondary: 7d percentage with colored text
+        font_secondary = QFont("Sans", 15, QFont.Weight.Bold)
+        painter.setFont(font_secondary)
+        inner_color = get_7d_color(self.inner_progress)
+        painter.setPen(inner_color)
+        secondary_text = f"{inner_pct}%"
+        secondary_rect = QRect(0, height // 2 + 14, width, 22)
+        painter.drawText(secondary_rect, Qt.AlignmentFlag.AlignCenter, secondary_text)
+
+        # "7-day" label
+        painter.setFont(font_label)
+        painter.setPen(inner_color)
+        label_7d_rect = QRect(0, height // 2 + 34, width, 16)
+        painter.drawText(label_7d_rect, Qt.AlignmentFlag.AlignCenter, "7-day")
 
         painter.end()
 
@@ -220,7 +237,7 @@ class UsagePopup(QWidget):
             Qt.WindowType.NoDropShadowWindowHint
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.setFixedSize(340, 340)
+        self.setFixedSize(380, 380)
 
         # Theme colors
         if self.dark_mode:
@@ -232,7 +249,7 @@ class UsagePopup(QWidget):
 
         # Main container with styling
         self.container = QFrame(self)
-        self.container.setGeometry(5, 5, 330, 330)
+        self.container.setGeometry(5, 5, 370, 370)
         self.container.setStyleSheet(f"""
             QFrame {{
                 background-color: {bg_color};
