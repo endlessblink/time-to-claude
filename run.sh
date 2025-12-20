@@ -54,4 +54,6 @@ check_deps
 
 # Run the application
 echo "Starting Claude Usage Monitor..."
+cd "$SCRIPT_DIR"
+export PYTHONPATH="$SCRIPT_DIR:$PYTHONPATH"
 exec "$VENV_DIR/bin/python" -m claude_usage_monitor.main "$@"
