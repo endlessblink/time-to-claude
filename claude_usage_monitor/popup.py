@@ -210,10 +210,10 @@ class TimerRow(QWidget):
 
         if reset_time:
             if self.is_7day:
-                # Show date and time for 7-day
-                self.reset_label.setText(reset_time.strftime("%m/%d, %I %p"))
+                # Show day name, date and 24h time for 7-day (e.g., "Mon Dec 23, 20:00")
+                self.reset_label.setText(reset_time.strftime("%a %b %d, %H:%M").replace(" 0", " "))
             else:
-                # Show just time for 5-hour
+                # Show just 24h time for 5-hour
                 self.reset_label.setText(reset_time.strftime("%H:%M"))
         else:
             self.reset_label.setText("--:--")
@@ -237,7 +237,7 @@ class UsagePopup(QWidget):
             Qt.WindowType.NoDropShadowWindowHint
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.setFixedSize(380, 380)
+        self.setFixedSize(420, 380)
 
         # Theme colors
         if self.dark_mode:
@@ -249,7 +249,7 @@ class UsagePopup(QWidget):
 
         # Main container with styling
         self.container = QFrame(self)
-        self.container.setGeometry(5, 5, 370, 370)
+        self.container.setGeometry(5, 5, 410, 370)
         self.container.setStyleSheet(f"""
             QFrame {{
                 background-color: {bg_color};

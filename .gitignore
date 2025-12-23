@@ -31,3 +31,4 @@ Thumbs.db
 # Local config (don't commit credentials!)
 # Note: User credentials are stored in ~/.config/claude-usage-monitor/
 # which is outside this repo, so they won't be committed anyway
+.aider*

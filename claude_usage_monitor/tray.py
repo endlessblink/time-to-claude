@@ -207,6 +207,10 @@ class UsageTrayIcon(QSystemTrayIcon):
         from .settings import SettingsDialog
         dialog = SettingsDialog()
         if dialog.exec():
+            # Close popup so it reopens with new theme settings
+            if self.popup:
+                self.popup.close()
+                self.popup = None
             # Credentials may have changed, reinitialize API
             if credentials.has_credentials():
                 self.api = ClaudeAPI()
